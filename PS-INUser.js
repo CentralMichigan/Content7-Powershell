@@ -75,6 +75,14 @@ function main()
 		Clib.fclose(args)
 		
 		switch(vars[0]){
+			case "getAllUsers":
+				var users = INUser.getAllUsers();
+				printf("Found %d users:\n", users.length);
+				for (var x=0; x < users.length; x++)
+				{
+				   printf("%s\n", users[x]);
+				}
+				break;			
 			case "addUser":
 				var username = vars[1];
 				var ret = INUser.addUser(username);
@@ -89,7 +97,7 @@ function main()
 				break;
 			case "deleteUser":
 				var username = vars[1];
-				var ret = INUser.addUser(username);
+				var ret = INUser.deleteUser(username);
 				if (!ret)
 				  {
 					 printf("Failed to delete user (%s): %s.\n", userName, getErrMsg());

@@ -704,6 +704,122 @@ function Get-INowUser
             $argStr | out-file -FilePath $GLOBAL:ARGFULLPATH
             Set-Location $GLOBAL:INTOOLPATH
             $ScriptName = $GLOBAL:SCRIPTPATH + "PS-INUser.js"
+            $inowuser = .\intool.exe --cmd run-iscript --file $ScriptName
+            New-Object -TypeName psobject -Property @{
+                ID = $inowuser[0].Split(':')[1]
+                org = $inowuser[1].Split(':')[1]
+                orgUnit =$inowuser[2].Split(':')[1]
+                email = $inowuser[3].Split(':')[1]
+                lastName = $inowuser[4].Split(':')[1]
+                firstName = $inowuser[5].Split(':')[1]
+                title = $inowuser[6].Split(':')[1]
+                locality = $inowuser[7].Split(':')[1]
+                phone = $inowuser[8].Split(':')[1]
+                mobile = $inowuser[9].Split(':')[1]
+                pager = $inowuser[10].Split(':')[1]
+                fax = $inowuser[11].Split(':')[1]
+                state = $inowuser[12].Split(':')[1] 
+                externId = $inowuser[13].Split(':')[1]
+                suffix = $inowuser[14].Split(':')[1]
+                prefix = $inowuser[15].Split(':')[1]
+            }
+        }
+    }
+
+}
+
+<#
+.Synopsis
+   Adds an ImageNow User
+.DESCRIPTION
+   Adds an ImageNow User
+#>
+function Add-INowUser
+{
+    [CmdletBinding(DefaultParameterSetName='Parameter Set 1', 
+                  SupportsShouldProcess=$true, 
+                  PositionalBinding=$false,
+                  HelpUri = 'http://www.microsoft.com/',
+                  ConfirmImpact='Medium')]
+    [OutputType([String])]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, ValueFromRemainingArguments=$false, Position=0, ParameterSetName='Parameter Set 1')] $UserName
+    )
+    Process
+    {
+        if ($pscmdlet.ShouldProcess("Target", "Operation"))
+        {
+            
+            $argStr = "addUser^" + $UserName +"^"
+            $argStr | out-file -FilePath $GLOBAL:ARGFULLPATH
+            Set-Location $GLOBAL:INTOOLPATH
+            $ScriptName = $GLOBAL:SCRIPTPATH + "PS-INUser.js"
+            .\intool.exe --cmd run-iscript --file $ScriptName
+        }
+    }
+
+}
+
+<#
+.Synopsis
+   removes an ImageNow User
+.DESCRIPTION
+   removes an ImageNow User
+#>
+function Remove-INowUser
+{
+    [CmdletBinding(DefaultParameterSetName='Parameter Set 1', 
+                  SupportsShouldProcess=$true, 
+                  PositionalBinding=$false,
+                  HelpUri = 'http://www.microsoft.com/',
+                  ConfirmImpact='Medium')]
+    [OutputType([String])]
+    Param
+    (
+        # Param1 help description
+        [Parameter(Mandatory=$true, ValueFromPipeline=$true, ValueFromPipelineByPropertyName=$true, ValueFromRemainingArguments=$false, Position=0, ParameterSetName='Parameter Set 1')] $UserName
+    )
+    Process
+    {
+        if ($pscmdlet.ShouldProcess("Target", "Operation"))
+        {
+            
+            $argStr = "deleteUser^" + $UserName +"^"
+            $argStr | out-file -FilePath $GLOBAL:ARGFULLPATH
+            Set-Location $GLOBAL:INTOOLPATH
+            $ScriptName = $GLOBAL:SCRIPTPATH + "PS-INUser.js"
+            .\intool.exe --cmd run-iscript --file $ScriptName
+        }
+    }
+
+}
+
+<#
+.Synopsis
+   Get all ImageNow Users
+.DESCRIPTION
+   Get all ImageNow Users
+#>
+function Get-INowUsers
+{
+    [CmdletBinding(DefaultParameterSetName='Parameter Set 1', 
+                  SupportsShouldProcess=$true, 
+                  PositionalBinding=$false,
+                  HelpUri = 'http://www.microsoft.com/',
+                  ConfirmImpact='Medium')]
+    [OutputType([String])]
+    Param()
+    Process
+    {
+        if ($pscmdlet.ShouldProcess("Target", "Operation"))
+        {
+            
+            $argStr = "getAllUsers^"
+            $argStr | out-file -FilePath $GLOBAL:ARGFULLPATH
+            Set-Location $GLOBAL:INTOOLPATH
+            $ScriptName = $GLOBAL:SCRIPTPATH + "PS-INUser.js"
             .\intool.exe --cmd run-iscript --file $ScriptName
         }
     }
